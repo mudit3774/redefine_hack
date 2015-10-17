@@ -24,6 +24,26 @@ def mp3_to_wave(mp3_filename):
 	check_call(['avconv', '-i', mp3_filename, wname])
 	return wname
 
+def get_color_hash(intensity):
+	RED = "#ff0000"
+	GREEN = "#008000"
+	return RED
+
+def process_final_val(number_of_peers):
+	max_amp = 0
+	max_amp = np.amax(final_val)
+	final_val_norm = final_val/max_amp
+	max_val = np.amax(final_val_norm)
+	response_array = [[] for i in range(number_of_peers)]
+	for time_slice in final_val_norm:
+		for peer in range(0, len(time_slice)) :
+			resp = {}
+			resp["Intensity"] = time_slice[peer]
+			resp["Color"] = get_color_hash(resp["Intensity"])
+	  		response_array[peer].append(resp)
+	return response_array
+
+
 def compute(filename, number_of_peers):
 	# Open the wave file and get info
 	wave_file_name = mp3_to_wave(filename)
@@ -137,9 +157,7 @@ def compute(filename, number_of_peers):
 		#filename = str('frame_%05d' % offset) + '.png'
 		#plt.savefig(filename, dpi=100)
 	print final_val
-
-	def process_final_val():
-		return json.dumps(final_val)
+	return process_final_val(number_of_peers)
 
 if __name__ == '__main__':
 	compute(sys.argv[1], 12)
