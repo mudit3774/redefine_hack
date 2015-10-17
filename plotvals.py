@@ -14,6 +14,7 @@ from tempfile import mktemp
 from scikits.audiolab import wavread, play
 from scipy.signal import remez, lfilter
 from pylab import *
+import json
 
 final_val = []
 
@@ -136,6 +137,9 @@ def compute(filename, number_of_peers):
 		#filename = str('frame_%05d' % offset) + '.png'
 		#plt.savefig(filename, dpi=100)
 	print final_val
+
+	def process_final_val():
+		return json.dumps(final_val)
 
 if __name__ == '__main__':
 	compute(sys.argv[1], 12)
